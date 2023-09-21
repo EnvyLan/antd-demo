@@ -1,42 +1,81 @@
 'use client'
 
-import React, { useCallback } from 'react';
-import ReactFlow, {
-    MiniMap,
-    Controls,
-    Background,
-    useNodesState,
-    useEdgesState,
-    addEdge,
-} from 'reactflow';
+import React, { useState } from 'react';
+import { Form, Input, Button, Checkbox, message } from 'antd';
+import { useRouter } from 'next/navigation';
+import './page.css';
 
-import 'reactflow/dist/style.css';
+const LoginPage = () => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-const initialNodes = [
-    { id: '1', position: { x: 0, y: 0 }, data: { label: '1' } },
-    { id: '2', position: { x: 0, y: 100 }, data: { label: '2' } },
-];
-const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
+  const onFinish = (values) => {
+    setLoading(true);
+    if(values.username == 'admin' && values.password == 'admin'){
+        message.success('Login success!');
+        router.push('/upload');
+    }else{
+        message.error('Login failed, please try again!');
+        setLoading(false);
+    }
+  };
 
-export default function Page() {
-    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-
-    const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
-
-    return (
-        <div style={{ width: '100vw', height: '100vh' }}>
-            <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
+  return (
+    <div className="login-page">
+      <div className="login-form-container">
+        <h1 className="login-form-title">User Login</h1>
+        <Form
+          name="normal_login"
+          className="login-form"
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish}
+        >
+          <Form.Item
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: 'Please enter user name!',
+              },
+            ]}
+          >
+            <Input placeholder="User name" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: 'Please enter password!',
+              },
+            ]}
+          >
+            <Input.Password placeholder="Password" />
+          </Form.Item>
+          <Form.Item>
+            <Form.Item name="remember" valuePropName="checked" noStyle>
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+            <a className="login-form-forgot" href="#">
+              Forgot password?
+            </a>
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+              loading={loading}
             >
-                <Controls />
-                <MiniMap />
-                <Background variant="dots" gap={12} size={1} />
-            </ReactFlow>
-        </div>
-    );
-}
+              Login
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage;

@@ -1,0 +1,79 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f2f5;
+  }
+  
+  .login-form-container {
+    width: 400px;
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .login-form-title {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  .login-form-button {
+    width: 100%;
+  }
+  
+  .login-form-forgot {
+    float: right;
+  }
+  
+  .login-form-forgot:hover {
+    color: #1890ff;
+  }
+  
+  .login-form-forgot:active {
+    color: #1890ff;
+  }
+  
+  .login-form-forgot:focus {
+    color: #1890ff;
+  }
+  
+  .login-form-forgot:visited {
+    color: #1890ff;
+  }
+  
+  .login-form-forgot:hover,
+  .login-form-forgot:active,
+  .login-form-forgot:focus,
+  .login-form-forgot:visited {
+    text-decoration: none;
+  }
+  
+  .login-form-forgot + a {
+    float: left;
+  }
+  
+  .login-form-forgot + a:hover {
+    color: #1890ff;
+  }
+  
+  .login-form-forgot + a:active {
+    color: #1890ff;
+  }
+  
+  .login-form-forgot + a:focus {
+    color: #1890ff;
+  }
+  
+  .login-form-forgot + a:visited {
+    color: #1890ff;
+  }
+  
+  .login-form-forgot + a:hover,
+  .login-form-forgot + a:active,
+  .login-form-forgot + a:focus,
+  .login-form-forgot + a:visited {
+    text-decoration: none;
+  }
+  
