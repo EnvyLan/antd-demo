@@ -6,6 +6,7 @@ body {
 .container {
     max-width: 600px;
     margin: 50px auto;
+    margin-bottom: 0;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -21,4 +22,15 @@ body {
 
 .user-input{
     margin: 20px 0;
+}
+
+.invoiceInfoList{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.invoiceInfoList .container{
+    width: 28%;
 }

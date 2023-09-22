@@ -2,12 +2,15 @@
 
 import { useState } from 'react';
 import { Upload, message, Button, Icon, Input } from 'antd';
+import MyForm from './form';
 import './page.css'
 
 const UploadFile = () => {
     const [fileContent, setFileContent] = useState('');
     const [userInputValue, setUserInputValue] = useState('');
     const [filePathArr, setFilePathArr] = useState([]);
+    const [invoiceFormData, setInvoiceFormData] = useState([]);
+    const [isShowForm, setIsShowForm] = useState(false);
 
     const handleFileUpload = (event) => {
         const data = {
@@ -15,6 +18,7 @@ const UploadFile = () => {
             file_list: filePathArr
         }
         console.log('data', JSON.stringify(data));
+
         fetch('http://20.167.42.140:3000/execute', {
             method: 'POST',
             headers: {
@@ -23,12 +27,16 @@ const UploadFile = () => {
             body: JSON.stringify(data),
         })
             .then(response => response.json())
-            .then(data => {
-                console.log('data2', data);
-                if(data.error_code == '400'){
+            .then(info => {
+                console.log('data2', info);
+                if (info.data) {
+                    setIsShowForm(true);
+                    setFileContent('Total amount is '+info.data.total_amount);
+                    setInvoiceFormData(info.data.invoices);
+                    console.log('info.data.invoices',info.data.invoices);
+                }else{
                     message.error(data.msg);
                 }
-                // setFileContent(data.fileContent);
             })
             .catch(error => {
                 console.error(error);
@@ -69,19 +77,27 @@ const UploadFile = () => {
     };
 
     return (
-        <div className="container">
-            <h1> Upload File</h1>
-            <Upload {...props}>
-                <Button>
-                    <Icon type="upload" /> Select file
-                </Button>
-            </Upload>
-            <Input className='user-input' value={userInputValue} placeholder='input something...' onChange={handleInputChange} />
-            <div style={{ textAlign: 'right' }}>
-                <Button type="primary" onClick={handleFileUpload}>Upload</Button>
-            </div>
-            <div className="result">{fileContent}</div>
-        </div >
+        <>
+            <div className="container">
+                <h1> Upload File</h1>
+                <Upload {...props}>
+                    <Button>
+                        <Icon type="upload" /> Click to upload
+                    </Button>
+                </Upload>
+                <Input className='user-input' value={userInputValue} placeholder='input something...' onChange={handleInputChange} />
+                <div style={{ textAlign: 'right' }}>
+                    <Button type="primary" onClick={handleFileUpload}>Execute</Button>
+                </div>
+                <div className="result">{fileContent}</div>
+            </div >
+
+            {isShowForm && <div className='invoiceInfoList'>
+                <div className="container">
+                    <MyForm invoiceFormData={invoiceFormData} />
+                </div >
+            </div>}
+        </>
     );
 }
 
